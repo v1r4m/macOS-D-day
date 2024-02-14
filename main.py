@@ -2,12 +2,20 @@ import rumps
 from datetime import datetime, date
 import schedule
 import time
+import os
 
 class DateApp(rumps.App):
     def __init__(self):
         super(DateApp, self).__init__("Date App")
-        self.target_date = date.today()  # default target date
+        self.target_date = self.load_target_date()
         self.update_date()
+
+    def load_target_date(self):
+        if os.path.exists('target_date.txt'):
+            with open('target_date.txt', 'r') as f:
+                return datetime.strptime(f.read().strip(), '%Y-%m-%d').date()
+        else:
+            return date.today()
 
     @rumps.clicked("Set Target Date")
     def set_target_date(self, _):
@@ -19,6 +27,8 @@ class DateApp(rumps.App):
         if response.clicked:
             self.target_date = datetime.strptime(response.text, '%Y-%m-%d').date()
             self.update_date()
+            with open('target_date.txt', 'w') as f:
+                f.write(str(self.target_date))
 
     def update_date(self):
         today = date.today()
