@@ -7,12 +7,13 @@ import os
 class DateApp(rumps.App):
     def __init__(self):
         super(DateApp, self).__init__("Date App")
+        self.target_date_file = os.path.join(os.path.expanduser("~"), 'target_date.txt')
         self.target_date = self.load_target_date()
         self.update_date()
 
     def load_target_date(self):
-        if os.path.exists('target_date.txt'):
-            with open('target_date.txt', 'r') as f:
+        if os.path.exists(self.target_date_file):
+            with open(self.target_date_file, 'r') as f:
                 return datetime.strptime(f.read().strip(), '%Y-%m-%d').date()
         else:
             return date.today()
@@ -27,7 +28,7 @@ class DateApp(rumps.App):
         if response.clicked:
             self.target_date = datetime.strptime(response.text, '%Y-%m-%d').date()
             self.update_date()
-            with open('target_date.txt', 'w') as f:
+            with open(self.target_date_file, 'w') as f:
                 f.write(str(self.target_date))
 
     def update_date(self):
