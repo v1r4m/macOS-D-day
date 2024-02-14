@@ -6,8 +6,19 @@ import time
 class DateApp(rumps.App):
     def __init__(self):
         super(DateApp, self).__init__("Date App")
-        self.target_date = date(2024, 1, 30)
+        self.target_date = date.today()  # default target date
         self.update_date()
+
+    @rumps.clicked("Set Target Date")
+    def set_target_date(self, _):
+        window = rumps.Window(message='Enter target date in YYYY-MM-DD format', 
+                              title='Set Target Date', 
+                              default_text=str(self.target_date),
+                              dimensions=(300, 24))
+        response = window.run()
+        if response.clicked:
+            self.target_date = datetime.strptime(response.text, '%Y-%m-%d').date()
+            self.update_date()
 
     def update_date(self):
         today = date.today()
