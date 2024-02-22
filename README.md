@@ -9,6 +9,9 @@
  * rumps 0.3.0
  * py2app 0.28.7
 
+## how to use
+Download the executable file on [Release tab](https://github.com/v1r4m/macOS-D-day/releases)
+
 ## quick start
 ```
 python3 main.py
